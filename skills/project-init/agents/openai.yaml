@@ -1,0 +1,4 @@
+interface:
+  display_name: "初始化專案"
+  short_description: "建立跨裝置專案藍圖、Git 交接與可選 Obsidian 筆記"
+  default_prompt: "使用 $project-init 盤點目前資料夾，預覽跨裝置專案初始化內容；未經我確認不得覆寫、提交或推送。"

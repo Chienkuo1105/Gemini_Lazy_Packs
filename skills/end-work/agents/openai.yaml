@@ -1,0 +1,4 @@
+interface:
+  display_name: "收工"
+  short_description: "彙整、掃描並預覽 Git 工作交接；確認前不寫入、不提交也不推送"
+  default_prompt: "使用 $end-work 彙整本次工作、掃描機密並預覽交接檔差異；未經 CK 確認不得提交或推送。"

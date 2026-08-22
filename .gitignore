@@ -1,0 +1,28 @@
+﻿# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.token
+*.cred
+oauth_creds.json
+google_accounts.json
+mcp_config.json
+
+# Temporary files & caches
+tmp/
+temp/
+__pycache__/
+*.pyc
+.cache/
+logs/
+*.log
+
+# Workspace specifics
+.agent/
+.system_generated/

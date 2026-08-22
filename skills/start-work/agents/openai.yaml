@@ -1,0 +1,5 @@
+interface:
+  display_name: "開工"
+  short_description: "讀取 Git 交接狀態、辨識風險並安全恢復目前專案工作上下文"
+  default_prompt: "使用 $start-work 讀取目前儲存庫的交接檔與 Git 狀態，提供精簡恢復摘要，不修改任何檔案。"
+
