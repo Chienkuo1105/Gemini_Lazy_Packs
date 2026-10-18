@@ -1,75 +1,51 @@
 ---
 name: to-spec
-description: "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
-disable-model-invocation: true
+description: 依據當前對話與架構脈絡，提煉出測試縫隙（Seams）、模組深度與使用者故事的架構規格書（Spec）。未經 CK 確認不得直接寫入檔案。
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
+# 規格化（To-Spec）：架構與需求規格提煉
 
-The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+本技能將當前對話脈絡、架構決策與程式庫現狀提煉成正式規格書。不主動重新質詢，而是彙整現有共識。
 
-## Process
+## 核心鐵律與確認閘門
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
+> [!IMPORTANT] 確認閘門（Approval Gate）
+> - **先預覽後寫檔**：產出之規格書草稿必須先在對話中完整顯示，未經 CK 明確確認，不得自動寫入檔案或提交。
+> - **嚴禁機密洩漏**：規格中嚴禁包含任何 API Key、Token、密碼、私鑰或敏感個人資料。
+> - **尊重專案語彙**：使用專案之 `GLOSSARY.md` 與現有 ADR（架構決策紀錄）術語。
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+## 執行流程
 
-Check with the user that these seams match their expectations.
+1. **探索程式庫現狀**：檢視目前專案結構與模組分工，確認即將異動的架構邊界。
+2. **界定測試縫隙（Seams）**：
+   - 找出測試該功能的最少且最高層縫隙（Seams），優先沿用現有 seam，避免過度引入 mock 或破壞模組深度。
+   - 與 CK 核對所選縫隙是否符合預期。
+3. **產出規格草稿**：採用下方標準模板提煉規格。
+4. **提出預覽並等待確認**：完整顯示草稿，取得 CK 確認後，再寫入專案文件（如 `docs/specs/<feature-slug>.md`）或專案追蹤器。
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+## 規格書標準模板
 
-<spec-template>
+```markdown
+# 規格書：<功能名稱>
 
-## Problem Statement
+## 1. 問題陳述 (Problem Statement)
+從使用者與系統角度說明現有痛點與挑戰。
 
-The problem that the user is facing, from the user's perspective.
+## 2. 解決方案 (Solution)
+概述所提方案的核心思路、預期效益與系統行為。
 
-## Solution
+## 3. 架構決策與測試縫隙 (Architecture Decisions & Seams)
+- **測試縫隙 (Testing Seams)**：指定最高層且最少之測試介入點。
+- **模組邊界 (Module Boundaries)**：說明深模組設計，保持表面簡潔、內部能力完備。
+- **安全防線 (Security Guards)**：依循安全編碼準則（防注入、防 XSS、參數化查詢、路徑檢驗）。
 
-The solution to the problem, from the user's perspective.
+## 4. 使用者故事與驗收標準 (User Stories & Acceptance Criteria)
+以條列與編號方式詳述所有使用場景：
+1. **作為** <角色>，**我希望** <功能>，**以便** <效益>。
+   - [ ] 驗收條件 A
+   - [ ] 驗收條件 B
 
-## User Stories
-
-A LONG, numbered list of user stories. Each user story should be in the format of:
-
-1. As an <actor>, I want a <feature>, so that <benefit>
-
-<user-story-example>
-1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
-</user-story-example>
-
-This list of user stories should be extremely extensive and cover all aspects of the feature.
-
-## Implementation Decisions
-
-A list of implementation decisions that were made. This can include:
-
-- The modules that will be built/modified
-- The interfaces of those modules that will be modified
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
-
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
-
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
-
-## Testing Decisions
-
-A list of testing decisions that were made. Include:
-
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
-- Prior art for the tests (i.e. similar types of tests in the codebase)
-
-## Out of Scope
-
-A description of the things that are out of scope for this spec.
-
-## Further Notes
-
-Any further notes about the feature.
-
-</spec-template>
+## 5. 實作取捨與限制 (Trade-offs & Constraints)
+- 單向門／雙向門判定
+- 潛在風險與非目標事項（Non-goals）
+```

@@ -1,0 +1,177 @@
+{
+  "slides": {
+    "1": {
+      "title": "新世代邊緣運算平台架構評估",
+      "subtitle": "Intel Meteor Lake-PS 與 AMD Rembrandt-X 方案對決",
+      "presenter": "AAEON Technology Inc. | 硬體研發團隊"
+    },
+    "2": {
+      "title": "簡報大綱與核心架構（Agenda & Framework）",
+      "items": [
+        {
+          "heading": "01  專案背景與技術目標",
+          "description": "• 工業邊緣 AI 運算需求激增，評估次世代 15W~45W 高能效平台方案。"
+        },
+        {
+          "heading": "02  硬體架構與訊號完整度",
+          "description": "• PCIe Gen5 與 DDR5 訊號完整度（SI）及散熱設計功耗（TDP）分析。"
+        },
+        {
+          "heading": "03  技術方案權衡決策",
+          "description": "• 對比 Intel vs AMD 晶片組之 BOM 成本、供貨週期與開發週期。"
+        },
+        {
+          "heading": "04  架構風險評估與防範",
+          "description": "• 針對 High-speed Bus 衰減與多電源軌時序之因應策略。"
+        },
+        {
+          "heading": "05  專案時程與推進計畫",
+          "description": "• EVT / DVT / PVT 四階段驗證與 2026 Q4 量產推進藍圖。"
+        }
+      ]
+    },
+    "3": {
+      "chapter_number": "01",
+      "title": "硬體架構評估與核心決策",
+      "subtitle_en": "Hardware Architecture Review & Key Decisions",
+      "summary": "深入分析晶片核心拓撲、高速訊號佈線限制、供電時序架構與工業寬溫支援特性。"
+    },
+    "4": {
+      "title": "核心架構決策與執行摘要（Executive Summary）",
+      "takeaway": "建議導入次世代高能效邊緣平台架構，在標準 12V/24V 工業電源輸入下，將 PCIe Gen5 與 LPDDR5 訊號佈線納入規範，達成功耗降低 20% 並支援 10 年長期供貨。",
+      "pillars": [
+        "處理器平台衝擊（Platform Impact）：新世代晶片在 TDP 功耗管理、開機電源時序及 GPIO 電位配置上具備更高彈性。",
+        "高速傳輸通道（High-Speed Bus）：PCIe Gen5 x8 支援邊緣 AI 加速卡，並預留 Retimer 佈線空間。",
+        "工業級防護與寬溫：全板件支援 -40°C ~ 85°C 操作溫度，符合 EN50155 與 MIL-STD-810H 標準。"
+      ]
+    },
+    "5": {
+      "title": "技術方案比較與權衡決策（Technical Trade-off）",
+      "option_a": {
+        "header": "方案 A：成熟世代架構（Option A）",
+        "subtitle": "前代晶片組與既有模組化設計",
+        "pros": "開發週期短、軟體驅動成熟、初期驗證成本極低。",
+        "cons": "擴充彈性受限、無法支援最新 AI NPU 加速、功耗偏高。",
+        "cost": "BOM 成本較低，但未來 3 年維護成本遞增。",
+        "spec": "PCB 採用標準 FR-4 6 層板，佈線裕度充裕。",
+        "recommendation": "適用於既有客製化專案的小改款與過渡需求。"
+      },
+      "option_b": {
+        "header": "方案 B：次世代旗艦架構（Option B - 建議方案）",
+        "subtitle": "整合 NPU 之次世代 4nm 高能效平台",
+        "pros": "算力提升 300%、支援 PCIe Gen5、內建專屬 AI 加速引擎。",
+        "cons": "SI 要求極高、需要 Low-loss 板材、初期調校週期較長。",
+        "cost": "初期研發與打樣成本較高，但具備 7~10 年產品壽命週期。",
+        "spec": "需採用 Megtron 6 8 層板並精密控制阻抗匹配。",
+        "recommendation": "【推薦】作為標準主力旗艦產品線與高階專案唯一首選。"
+      }
+    },
+    "6": {
+      "title": "三大核心技術支柱分析（Core Technical Pillars）",
+      "pillars": [
+        {
+          "title_zh": "電源與電氣架構",
+          "title_en": "Power & Electrical",
+          "points": [
+            "【寬壓輸入】支援 9~36V DC 工業寬壓輸入與反接保護電路。",
+            "【動態負載】採用高效率多相 VRM 供電，暫態響應小於 5%。",
+            "【電源時序】CPLD 精密控制各電源軌 Power-up / Power-down 序列。"
+          ]
+        },
+        {
+          "title_zh": "高速訊號與佈線 (SI)",
+          "title_en": "High-Speed SI Design",
+          "points": [
+            "【PCIe Gen5】嚴格控管 Trace Length 與差動阻抗 85Ω ±10%。",
+            "【LPDDR5】採用 Fly-by 拓撲搭配 On-die Termination (ODT)。",
+            "【模擬驗證】全通道通過 Ansys HFSS 與 Keysight ADS 眼圖模擬。"
+          ]
+        },
+        {
+          "title_zh": "散熱與機構可靠度",
+          "title_en": "Thermal & Mechanics",
+          "points": [
+            "【無風扇設計】一體成型鋁合金壓鑄外殼兼具散熱鰭片功能。",
+            "【熱阻優化】晶片與散熱模組間採用 6.0 W/mK 高導熱介面材料。",
+            "【抗震規範】通過 IEC 60068-2-64 5Grms 隨機振動嚴苛測試。"
+          ]
+        }
+      ]
+    },
+    "7": {
+      "title": "架構風險矩陣與因應策略（Risk Matrix & Mitigation）",
+      "risks": [
+        {
+          "header": "【高衝擊 / 高機率】關鍵技術風險",
+          "risk": "PCIe Gen5 訊號在背板延伸時衰減超過 16dB，導致眼圖閉合。",
+          "mitigation": "• 導入 Low-loss PCB (Megtron 6) • 預留 Redriver/Retimer 晶片佈線空間。"
+        },
+        {
+          "header": "【高衝擊 / 低機率】平台相容風險",
+          "risk": "新晶片組與舊版 Linux Kernel 5.x 驅動不相容，導致周邊設備無法識別。",
+          "mitigation": "• BSP 團隊提前升級至 Kernel 6.6 LTS • 提供專屬 Docker 容器環境。"
+        },
+        {
+          "header": "【低衝擊 / 高機率】機構公差風險",
+          "risk": "散熱塊與高低落差元件接觸壓力不均，造成散熱死角。",
+          "mitigation": "• 使用多階厚度導熱矽膠片 • 進行 3D 擬真堆疊公差分析與樣品打樣。"
+        },
+        {
+          "header": "【低衝擊 / 低機率】常規物料交期",
+          "risk": "特定專用 PMIC 晶片交期拉長至 26 週以上。",
+          "mitigation": "• 在 Schematic 設計階段即建立 Dual-source Pin-to-Pin 相容料件備案。"
+        }
+      ]
+    },
+    "8": {
+      "title": "專案時程與推進里程碑（Schedule & Milestones）",
+      "phases": [
+        {
+          "phase": "Phase 1：Q1 2026",
+          "title_zh": "架構評估與規格凍結",
+          "title_en": "Architecture & Spec Freeze",
+          "tasks": [
+            "平台架構可行性評估完成",
+            "主要晶片與關鍵周邊選型",
+            "System Block Diagram 凍結"
+          ]
+        },
+        {
+          "phase": "Phase 2：Q2 2026",
+          "title_zh": "電路設計與 PCB 佈線",
+          "title_en": "Schematic & PCB Layout",
+          "tasks": [
+            "原理圖設計與跨部門 Peer Review",
+            "SI / PI 模擬與疊構確認",
+            "Gerber 輸出與發板打樣 (EVT)"
+          ]
+        },
+        {
+          "phase": "Phase 3：Q3 2026",
+          "title_zh": "工程樣品與驗證測試",
+          "title_en": "EVT / DVT Validation",
+          "tasks": [
+            "Power-on 與開機時序精確量測",
+            "-40°C ~ 85°C 高低溫極限測試",
+            "相容性與法規預認證 (CE/FCC)"
+          ]
+        },
+        {
+          "phase": "Phase 4：Q4 2026",
+          "title_zh": "試產導入與量產放行",
+          "title_en": "PVT & Mass Production",
+          "tasks": [
+            "生產治具與自動化測試程式收斂",
+            "試產 (Pilot Run) 良率大於 98%",
+            "正式量產 (MP) 與技術文件交付"
+          ]
+        }
+      ]
+    },
+    "9": {
+      "main_text": "Thank You",
+      "sub_text": "Q&A 與討論交流",
+      "company": "研揚科技 AAEON Technology Inc.  |  研發中心"
+    }
+  }
+}

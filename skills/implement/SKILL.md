@@ -1,15 +1,37 @@
 ---
 name: implement
-description: "Implement a piece of work based on a spec or set of tickets."
-disable-model-invocation: true
+description: 依據規格或示蹤彈票券進行工程實作，驅動 TDD（紅綠重構循環）與安全審查。支援 2~3 個無相依任務並行 Subagents 派發，寫檔與 commit 均須取得 CK 個別明確確認。
 ---
 
-Implement the work described by the user in the spec or tickets.
+# 工程實作（Implement）：TDD 驅動與並行安全落地
 
-Use /tdd where possible, at pre-agreed seams.
+本技能依據核定之規格或示蹤彈票券（Tickets）推進實作，支援以任務圖（Task Graph）為基礎的前沿（Frontier）推進。
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+## 🔴 核心鐵律與確認閘門（嚴格保留）
 
-Once done, use /code-review to review the work.
+> [!CAUTION] 絕對紅線與確認閘門
+> 1. **檔案寫入確認**：在建立新檔案或修改既有程式碼前，必須說明變更原因與內容差異，**取得 CK 明確確認後方可寫檔**。
+> 2. **Git Commit 確認**：測試通過後，提出 commit 訊息草稿，**取得 CK 個別明確確認後方可提交**。
+> 3. **禁止自動 Push 或切換分支**：嚴禁未經指示自動 push、建立分支或切換分支。
+> 4. **並行派發規範**：
+>    - **並行數量上限**：嚴格限制為 **2～3 個** Subagents。
+>    - **僅限無相依任務**：僅對相依條件全部滿足、彼此無衝突的獨立任務派發並行。
+>    - **沙盒隔離**：Subagents 一律使用 `Workspace: "branch"`，禁止 Subagent 自行修改主檔案或 Commit。
+>    - **集中守門**：由主 Agent 匯總成果，呈報 CK 審批後統一落地。
+> 5. **安全編碼準則**：禁止 `eval()`、動態執行；防範 SQL/Shell 命令注入；前端防 XSS；路徑白名單驗證；機密零容忍。
 
-Commit your work to the current branch.
+## 執行流程
+
+1. **鎖定前沿任務（Frontier Detection）**：
+   - 檢視 `.agent/tickets/`，找出所有 blockers 均已解決的待執行票券。
+   - 若只有 1 張票券，直接由主 Agent 或單一 Subagent 執行。
+   - 若有 2 張以上獨立票券，**最多啟動 2～3 個 Subagents** 並行處理。
+2. **驅動 TDD 循環（Red-Green-Refactor）**：
+   - **紅燈（Red）**：在預定的測試縫隙（Seam）撰寫失敗測試，驗證失敗原因符合預期。
+   - **綠燈（Green）**：以最少且優雅的程式碼讓測試通過。
+   - **重構（Refactor）**：優化結構，保持深模組設計，確保不破壞既有測試。
+3. **安全檢查與單元驗證**：執行 linter、型別檢查與測試套件，確認無安全弱點。
+4. **雙軸審查對齊**：調用 `code-review` 自我審視（代碼規範 Standards + 規格達成度 Spec）。
+5. **提交預覽與確認（Approval Gate）**：
+   - 列出變更清單與 Commit 訊息草稿。
+   - 取得 CK 明確授權後完成本切片之 Commit。
