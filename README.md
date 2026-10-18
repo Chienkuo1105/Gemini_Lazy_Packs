@@ -1,6 +1,6 @@
 # Gemini Lazy Packs (Antigravity AI Agent 懶人包)
 
-本儲存庫整合了個人化 AI Agent（Jenny）全域自訂規則（AGENTS.md）與 77 個自訂 Skills，適用於 Antigravity / Gemini CLI 環境之快速備份與跨裝置部署。
+本儲存庫整合了個人化 AI Agent（Jenny）全域自訂規則（AGENTS.md）與 33 個精選核心自訂 Skills，適用於 Antigravity / Gemini CLI 環境之快速備份與跨裝置部署。
 
 ---
 
@@ -12,7 +12,7 @@ Gemini_Lazy_Packs/
 ├── .gitignore              # 忽略暫存與機密檔案
 ├── rules/
 │   └── GEMINI.md           # 脫敏後的全域行為準則與角色規範（AGENTS.md）
-└── skills/                 # 自訂 Skills 集合（包含專案生命週期、質詢面談、原理解說動畫、雲端資料工程等）
+└── skills/                 # 自訂 Skills 集合（包含專案生命週期、質詢面談、TDD 工程實作、原理解說動畫等）
     ├── project-init/       # 專案初始化規範與藍圖建立
     ├── start-work/         # 開工與跨裝置工作恢復（唯讀檢查）
     ├── end-work/           # 收工與 HANDOFF v1 交接建立（含機密掃描）
@@ -20,7 +20,7 @@ Gemini_Lazy_Packs/
     ├── motion-explainer/   # HyperFrames 原理解說動畫端到端製作
     ├── grill-me/           # 深度決策樹質詢面談
     ├── grilling/           # 質詢邏輯與架構推演
-    └── ...                 # 其餘資料工程、ML、架構設計與輔助技能
+    └── ...                 # 其餘 TDD 實作、架構規格、聲音克隆與簡報生成技能
 ```
 
 ---
